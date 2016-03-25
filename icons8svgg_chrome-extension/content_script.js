@@ -21,11 +21,15 @@ function append_dl_button(parent_node, onclick) {
     parent_node.appendChild(button);
 }
 
+function cleaned_svg_string(str) {
+    return str.replace(/width="\d+"/, "").replace(/height="\d+"/, "");
+}
+
 function download_icons(icons) {
     var zip = new JSZip();
     icons.forEach(function (icon) {
         var filename = "icon-" + kebabCase(icon.name) + ".svg";
-        zip.file(filename, icon.svg);
+        zip.file(filename, cleaned_svg_string(icon.svg));
     });
     base64zip = zip.generate({type:"blob"});
     saveAs(base64zip, "icons.zip")
